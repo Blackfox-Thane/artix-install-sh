@@ -35,6 +35,11 @@ mount /dev/$root_partition /mnt/efi
 
 clear
 
+# Update the system clock
+rc-service ntpd start
+
+clear
+
 # install base packages
 basestrap -i /mnt base base-devel linux linux-headers linux-firmware openrc git vim btrfs-progs rsync xdg-user-dirs bluez bluez-openrc bluez-utils \
 pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber reflector openssh man sudo neovim zsh zsh-completions zsh-autosuggestions zstd \
