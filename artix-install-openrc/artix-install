@@ -2,7 +2,7 @@
 clear
 
 # edit /etc/pacman.conf file
-nano /etc/pacman.conf
+vim /etc/pacman.conf
 
 clear
 
@@ -18,17 +18,25 @@ echo ' '
 
 # format disk label
 read -p 'Root partition (Example: vda1, sda1, nvme0n1p1): ' root_partition
-mkfs.ext4 /dev/$root_partition
+mkfs.btrfs /dev/$root_partition
 mount /dev/$root_partition /mnt
+btrfs sub create /mnt/@artix
+btrfs subvolume create /mnt/@home
+umount /mnt
+
+mount -o compress=zstd,subvol=@ /dev/$root_partition /mnt
+mkdir -p /mnt/home
+mount -o compress=zstd,subvol=@home /dev/$root_partition /mnt/home
 
 read -p 'Boot partition (Example: vda1, sda1, nvme0n1p1): ' boot_partition
 mkfs.fat -F32 /dev/$boot_partition
-mkdir -p /mnt/boot/efi
+mkdir -p /mnt/efi
+mount /dev/$root_partition /mnt/efi
 
 clear
 
 # install base packages
-basestrap -i /mnt base base-devel linux linux-headers linux-firmware openrc git nano
+basestrap -i /mnt base base-devel linux linux-headers linux-firmware openrc git vim 
 
 # create fstab file
 fstabgen -U /mnt > /mnt/etc/fstab
