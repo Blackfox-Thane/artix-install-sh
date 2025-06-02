@@ -20,8 +20,8 @@ echo ' '
 read -p 'Root partition (Example: vda1, sda1, nvme0n1p1): ' root_partition
 mkfs.btrfs /dev/$root_partition
 mount /dev/$root_partition /mnt
-btrfs sub create /mnt/@artix
-btrfs subvolume create /mnt/@home
+btrfs sub create /mnt/@
+btrfs sub create /mnt/@home
 umount /mnt
 
 mount -o compress=zstd,subvol=@ /dev/$root_partition /mnt
