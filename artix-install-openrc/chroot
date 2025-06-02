@@ -2,7 +2,22 @@
 clear
 
 # edit /etc/pacman.conf file
-nano /etc/pacman.conf
+# neovim /etc/pacman.conf
+
+cat << EOF >> /etc/pacman.conf
+[lib32]
+Include = /etc/pacman.d/mirrorlist
+
+# stable arch repos
+[extra]
+Include = /etc/pacman.d/mirrorlist-arch
+[multilib]
+Include = /etc/pacman.d/mirrorlist-arch
+[community]
+Include = /etc/pacman.d/mirrorlist-arch
+EOF
+
+pacman-key --populate archlinux
 
 clear
 
@@ -59,10 +74,13 @@ rc-update add NetworkManager default
 sleep 2
 clear
 
-# touchpad support
-pacman -S xf86-input-libinput
+# DHCP client
+pacman -S dhcpcd
 sleep 2
 clear
+
+pacman -S connman-openrc connman-gtk
+rc-update add connmand
 
 # NTFS filesystem support
 pacman -S ntfs-3g
@@ -70,15 +88,24 @@ sleep 2
 clear
 
 # GRUB
-pacman -S grub efibootmgr os-prober
+#pacman -S grub efibootmgr os-prober
+#sleep 2
+#clear
+
+#grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id='Artix Linux'
+#sleep 2
+#clear
+
+#grub-mkconfig -o /boot/grub/grub.cfg
+#sleep 2
+#clear
+
+# REFIND
+pacman -S refind efibootmgr
 sleep 2
 clear
 
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id='Artix Linux'
-sleep 2
-clear
-
-grub-mkconfig -o /boot/grub/grub.cfg
+refind-install
 sleep 2
 clear
 
@@ -92,5 +119,5 @@ passwd $user_name
 sleep 2
 
 # sudo privileges
-EDITOR=nano visudo
+EDITOR=neovim visudo
 clear
