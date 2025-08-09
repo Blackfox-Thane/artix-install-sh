@@ -16,7 +16,7 @@ clear
 lsblk
 echo ' '
 
-# format disk label
+# format disk label (ext4)
 read -p 'Root partition (Example: vda1, sda1, nvme0n1p1): ' root_partition
 mkfs.ext4 /dev/$root_partition
 mount /dev/$root_partition /mnt
@@ -27,7 +27,7 @@ mkdir -p /mnt/boot/efi
 
 clear
 
-# format disk label
+# format disk label (btrfs)
 read -p 'Root partition (Example: vda1, sda1, nvme0n1p1): ' root_partition
 mkfs.btrfs /dev/$root_partition
 mount /dev/$root_partition /mnt
