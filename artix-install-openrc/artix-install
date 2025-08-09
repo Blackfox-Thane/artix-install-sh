@@ -52,6 +52,7 @@ rc-service ntpd start
 clear
 
 # install base packages
+read -p 'install packages: '
 basestrap -i /mnt base base-devel linux linux-headers linux-firmware openrc git vim btrfs-progs rsync xdg-user-dirs bluez bluez-openrc bluez-utils \
 pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber reflector openssh man sudo neovim zsh zsh-completions zsh-autosuggestions zstd \
 archlinux-mirrorlist artix-archlinux-support amd-ucode amdgpu mesa vulkan-radeon libva-mesa-driver mesa-vdpau xf86-video-amdgpu 
