@@ -33,11 +33,12 @@ mkfs.btrfs /dev/$root_partition
 mount /dev/$root_partition /mnt
 btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
+btrfs sub create /mnt/@swap
 umount /mnt
 
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@ /dev/$root_partition /mnt
-mkdir -p /mnt/home
-mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt
+mkdir -p /mnt/{boot,home,swap}
+mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@home
 
 read -p 'Boot partition (Example: vda1, sda1, nvme0n1p1): ' boot_partition
 mkfs.fat -F32 /dev/$boot_partition
@@ -54,8 +55,6 @@ clear
 # install base packages
 read -p 'install packages: ' pacman_packages
 basestrap -i /mnt $pacman_packages 
-
-#base base-devel linux linux-headers linux-firmware openrc git vim btrfs-progs rsync xdg-user-dirs bluez bluez-openrc bluez-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber reflector openssh man sudo neovim zsh zsh-completions zsh-autosuggestions zstd archlinux-mirrorlist artix-archlinux-support amd-ucode amdgpu mesa vulkan-radeon libva-mesa-driver mesa-vdpau xf86-video-amdgpu
 
 # create fstab file
 fstabgen -U /mnt > /mnt/etc/fstab
