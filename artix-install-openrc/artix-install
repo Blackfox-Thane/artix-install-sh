@@ -39,7 +39,7 @@ umount /mnt
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@ /dev/$root_partition /mnt
 mkdir -p /mnt/{boot,home,swap}
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@home
-mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@swap
+# mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@swap
 
 btrfs filesystem mkswapfile --size 4g --uuid clear /swap/swapfile
 swapon /swap/swapfile
