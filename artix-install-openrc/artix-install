@@ -34,7 +34,6 @@ mount /dev/$root_partition /mnt
 btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
 btrfs sub create /mnt/@swap
-
 umount /mnt
 
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@ /dev/$root_partition /mnt
