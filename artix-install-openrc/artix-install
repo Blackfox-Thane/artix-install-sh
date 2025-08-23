@@ -63,6 +63,7 @@ basestrap -i /mnt $pacman_packages
 
 # create fstab file
 fstabgen -U /mnt > /mnt/etc/fstab
+echo -e "/swap/swapfile none swap defaults 0 0" >> /etc/fstab
 mount /dev/$boot_partition /mnt/boot/efi
 
 cp $(pwd)/chroot /mnt
