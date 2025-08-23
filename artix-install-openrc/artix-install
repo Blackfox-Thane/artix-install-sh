@@ -34,14 +34,17 @@ mount /dev/$root_partition /mnt
 btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
 btrfs sub create /mnt/@swap
-btrfs filesystem mkswapfile --size 4g --uuid clear /swap/swapfile
-swapon /swap/swapfile
+
 umount /mnt
 
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@ /dev/$root_partition /mnt
 mkdir -p /mnt/{boot,home,swap}
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@home
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@swap
+
+btrfs filesystem mkswapfile --size 4g --uuid clear /swap/swapfile
+swapon /swap/swapfile
+
 
 read -p 'Boot partition (Example: vda1, sda1, nvme0n1p1): ' boot_partition
 mkfs.fat -F32 /dev/$boot_partition
