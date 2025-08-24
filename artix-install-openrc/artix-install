@@ -35,7 +35,9 @@ btrfs sub create /mnt/@
 btrfs sub create /mnt/@home
 btrfs sub create /mnt/@swap
 umount /mnt
+sleep 2
 
+# Mounting btrfs parameters
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@ /dev/$root_partition /mnt
 mkdir -p /mnt/{boot,home,swap}
 mount -o noatime,nodiratime,compress=zstd,commit=120,space_cache,ssd,discard=async,autodefrag,subvol=@home /dev/$root_partition /mnt/@home
